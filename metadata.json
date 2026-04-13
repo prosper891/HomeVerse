@@ -1,0 +1,9 @@
+{
+  "name": "HomeVerse",
+  "description": "A powerful music social, monetization, and streaming platform for creators, powered by Obani.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone",
+    "geolocation"
+  ]
+}

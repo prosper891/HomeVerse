@@ -1,0 +1,416 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "Represents a user profile on HomeVerse",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "username": { "type": "string", "description": "Unique username" },
+        "email": { "type": "string" },
+        "roles": { "type": "array", "items": { "type": "string" }, "description": "Roles like artist, producer, record_label, songwriter" },
+        "bio": { "type": "string" },
+        "genres": { "type": "array", "items": { "type": "string" } },
+        "followers_count": { "type": "number" },
+        "following_count": { "type": "number" },
+        "wallet_address": { "type": "string" },
+        "wallet_passkey": { "type": "string" },
+        "crypto_balances": { 
+          "type": "object",
+          "properties": {
+            "BTC": { "type": "number" },
+            "ETH": { "type": "number" },
+            "SOL": { "type": "number" },
+            "USDT": { "type": "number" }
+          }
+        },
+        "coins": { "type": "number" },
+        "age": { "type": "number" },
+        "gender": { "type": "string" },
+        "country": { "type": "string" },
+        "date_of_birth": { "type": "string", "format": "date" },
+        "is_verified": { "type": "boolean" },
+        "role": { "type": "string", "enum": ["admin", "user", "label_owner", "label_part_owner"] }
+      },
+      "required": ["id", "username", "email"]
+    },
+    "Follow": {
+      "title": "Follow",
+      "description": "Represents a follow relationship",
+      "type": "object",
+      "properties": {
+        "follower_id": { "type": "string" },
+        "following_id": { "type": "string" },
+        "created_at": { "type": "string", "format": "date-time" }
+      },
+      "required": ["follower_id", "following_id"]
+    },
+    "Notification": {
+      "title": "Notification",
+      "description": "A notification for a user",
+      "type": "object",
+      "properties": {
+        "recipient_id": { "type": "string" },
+        "sender_id": { "type": "string" },
+        "sender_username": { "type": "string" },
+        "type": { "type": "string" },
+        "post_id": { "type": "string" },
+        "is_read": { "type": "boolean" },
+        "created_at": { "type": "string", "format": "date-time" }
+      },
+      "required": ["recipient_id", "sender_id", "type"]
+    },
+    "Place": {
+      "title": "Place",
+      "description": "A location or palace",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "location": { "type": "string" },
+        "description": { "type": "string" },
+        "created_at": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "name"]
+    },
+    "AIMessage": {
+      "title": "AIMessage",
+      "description": "A message in the AI assistant chat",
+      "type": "object",
+      "properties": {
+        "user_id": { "type": "string" },
+        "role": { "type": "string", "enum": ["user", "ai"] },
+        "text": { "type": "string" },
+        "created_at": { "type": "string", "format": "date-time" }
+      },
+      "required": ["user_id", "role", "text"]
+    },
+    "Story": {
+      "title": "Story",
+      "description": "A 24-hour temporary post",
+      "type": "object",
+      "properties": {
+        "user_id": { "type": "string" },
+        "username": { "type": "string" },
+        "avatar_url": { "type": "string" },
+        "type": { "type": "string", "enum": ["image", "video", "note"] },
+        "content": { "type": "string" },
+        "file_url": { "type": "string" },
+        "music_id": { "type": "string" },
+        "music_title": { "type": "string" },
+        "privacy": { "type": "string", "enum": ["public", "friends", "friends_of_friends", "only_me"] },
+        "created_at": { "type": "string", "format": "date-time" },
+        "expires_at": { "type": "string", "format": "date-time" },
+        "views_count": { "type": "number" },
+        "likes_count": { "type": "number" }
+      }
+    },
+    "StoryLike": {
+      "title": "StoryLike",
+      "description": "A like on a story",
+      "type": "object",
+      "properties": {
+        "story_id": { "type": "string" },
+        "user_id": { "type": "string" },
+        "username": { "type": "string" },
+        "avatar_url": { "type": "string" },
+        "created_at": { "type": "string", "format": "date-time" }
+      }
+    },
+    "Referral": {
+      "title": "Referral",
+      "description": "Tracks user referrals",
+      "type": "object",
+      "properties": {
+        "referrer_id": { "type": "string" },
+        "referred_id": { "type": "string" },
+        "referred_username": { "type": "string" },
+        "referred_avatar": { "type": "string" },
+        "created_at": { "type": "string", "format": "date-time" }
+      }
+    },
+    "Post": {
+      "title": "Post",
+      "description": "A content post (video, audio, or image)",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "user_id": { "type": "string" },
+        "username": { "type": "string" },
+        "user_avatar": { "type": "string" },
+        "type": { "type": "string", "enum": ["video", "audio", "image"] },
+        "release_type": { "type": "string", "enum": ["single", "ep", "mixtape", "album"] },
+        "file_url": { "type": "string" },
+        "cover_url": { "type": "string" },
+        "caption": { "type": "string" },
+        "lyrics": { "type": "string" },
+        "artist_name": { "type": "string" },
+        "featured_artists": { "type": "array", "items": { "type": "string" } },
+        "copyright": { "type": "string" },
+        "record_label": { "type": "string" },
+        "release_date": { "type": "string", "format": "date" },
+        "genre": { "type": "string" },
+        "sub_genre": { "type": "string" },
+        "hashtags": { "type": "array", "items": { "type": "string" } },
+        "inspiration": { "type": "string" },
+        "is_scheduled": { "type": "boolean" },
+        "scheduled_date": { "type": "string", "format": "date-time" },
+        "likes_count": { "type": "number" },
+        "favorites_count": { "type": "number" },
+        "views_count": { "type": "number" },
+        "shares_count": { "type": "number" },
+        "comments_count": { "type": "number" },
+        "duet_id": { "type": "string" },
+        "allow_download": { "type": "boolean" },
+        "tip_enabled": { "type": "boolean" },
+        "created_at": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "user_id", "type", "file_url"]
+    },
+    "Playlist": {
+      "title": "Playlist",
+      "description": "A collection of songs",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "user_id": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "cover_url": { "type": "string" },
+        "post_ids": { "type": "array", "items": { "type": "string" } },
+        "is_public": { "type": "boolean" },
+        "created_at": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "user_id", "title"]
+    },
+    "Chat": {
+      "title": "Chat",
+      "description": "A conversation between users",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "participant_ids": { "type": "array", "items": { "type": "string" } },
+        "last_message": { "type": "string" },
+        "last_message_sender_id": { "type": "string" },
+        "last_message_status": { "type": "string", "enum": ["sent", "delivered", "read"] },
+        "is_story_initiated": { "type": "boolean" },
+        "is_safe": { "type": "boolean" },
+        "updated_at": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "participant_ids"]
+    },
+    "Message": {
+      "title": "Message",
+      "description": "A message in a chat",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "chat_id": { "type": "string" },
+        "sender_id": { "type": "string" },
+        "type": { "type": "string", "enum": ["text", "image", "video", "audio", "voice_note"] },
+        "content": { "type": "string" },
+        "file_url": { "type": "string" },
+        "is_view_once": { "type": "boolean" },
+        "viewed_by": { "type": "array", "items": { "type": "string" } },
+        "status": { "type": "string", "enum": ["sent", "delivered", "read"] },
+        "created_at": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "chat_id", "sender_id", "type"]
+    },
+    "Comment": {
+      "title": "Comment",
+      "description": "A comment on a post",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "post_id": { "type": "string" },
+        "user_id": { "type": "string" },
+        "username": { "type": "string" },
+        "text": { "type": "string" },
+        "likes_count": { "type": "number" },
+        "replies_count": { "type": "number" },
+        "parent_id": { "type": "string", "description": "ID of the parent comment if this is a reply" },
+        "is_owner_liked": { "type": "boolean" },
+        "created_at": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "post_id", "user_id", "text"]
+    },
+    "Transaction": {
+      "title": "Transaction",
+      "description": "A financial transaction (tip or payment)",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "user_id": { "type": "string" },
+        "amount": { "type": "number" },
+        "type": { "type": "string", "enum": ["tip", "payment"] },
+        "method": { "type": "string" },
+        "created_at": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "user_id", "amount", "type"]
+    },
+    "Tournament": {
+      "title": "Tournament",
+      "description": "A talent hunt or competition",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "status": { "type": "string", "enum": ["upcoming", "active", "completed"] },
+        "sign_up_fee": { "type": "number" },
+        "reward_pool": { "type": "string" },
+        "deadline": { "type": "string", "format": "date-time" },
+        "eligibility": { "type": "string" },
+        "criteria": { "type": "string" },
+        "template": { "type": "string" },
+        "created_at": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "title", "status"]
+    },
+    "Note": {
+      "title": "Note",
+      "description": "A user's private note or lyric draft",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "user_id": { "type": "string" },
+        "content": { "type": "string" },
+        "created_at": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "user_id", "content"]
+    },
+    "Stream": {
+      "title": "Stream",
+      "description": "A live stream session",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "user_id": { "type": "string" },
+        "username": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "viewer_count": { "type": "number" },
+        "likes_count": { "type": "number" },
+        "shares_count": { "type": "number" },
+        "comments_count": { "type": "number" },
+        "is_active": { "type": "boolean" },
+        "moderator_ids": { "type": "array", "items": { "type": "string" }, "description": "List of user IDs who are moderators" },
+        "recording_url": { "type": "string", "description": "URL to the recorded stream" },
+        "created_at": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "user_id", "is_active"]
+    },
+    "LiveInvite": {
+      "title": "LiveInvite",
+      "description": "An invitation to join a live stream",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "stream_id": { "type": "string" },
+        "streamer_id": { "type": "string" },
+        "streamer_username": { "type": "string" },
+        "recipient_id": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "accepted", "declined"] },
+        "created_at": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "stream_id", "streamer_id", "recipient_id", "status"]
+    },
+    "StreamRecording": {
+      "title": "StreamRecording",
+      "description": "A recorded live stream sent to moderators",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "stream_id": { "type": "string" },
+        "host_id": { "type": "string" },
+        "moderator_id": { "type": "string" },
+        "video_url": { "type": "string" },
+        "created_at": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "stream_id", "host_id", "moderator_id", "video_url"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile documents"
+    },
+    "/posts/{postId}": {
+      "schema": "Post",
+      "description": "Content posts"
+    },
+    "/posts/{postId}/comments/{commentId}": {
+      "schema": "Comment",
+      "description": "Comments on a specific post"
+    },
+    "/transactions/{transactionId}": {
+      "schema": "Transaction",
+      "description": "Financial transactions"
+    },
+    "/playlists/{playlistId}": {
+      "schema": "Playlist",
+      "description": "User playlists"
+    },
+    "/chats/{chatId}": {
+      "schema": "Chat",
+      "description": "Chat conversations"
+    },
+    "/chats/{chatId}/messages/{messageId}": {
+      "schema": "Message",
+      "description": "Messages in a chat"
+    },
+    "/tournaments/{tournamentId}": {
+      "schema": "Tournament",
+      "description": "Tournament details"
+    },
+    "/notes/{noteId}": {
+      "schema": "Note",
+      "description": "User private notes"
+    },
+    "/streams/{streamId}": {
+      "schema": "Stream",
+      "description": "Live stream sessions"
+    },
+    "/live_invites/{inviteId}": {
+      "schema": "LiveInvite",
+      "description": "Invitations to join live streams"
+    },
+    "/stream_recordings/{recordingId}": {
+      "schema": "StreamRecording",
+      "description": "Recorded streams for moderators"
+    },
+    "/settings/{settingId}": {
+      "schema": "object",
+      "description": "Global app settings"
+    },
+    "/follows/{followId}": {
+      "schema": "Follow",
+      "description": "Follow relationships"
+    },
+    "/notifications/{notificationId}": {
+      "schema": "Notification",
+      "description": "User notifications"
+    },
+    "/places/{placeId}": {
+      "schema": "Place",
+      "description": "Palaces and locations"
+    },
+    "/ai_messages/{messageId}": {
+      "schema": "AIMessage",
+      "description": "AI assistant messages"
+    },
+    "/stories/{storyId}": {
+      "schema": "Story",
+      "description": "Temporary 24h stories"
+    },
+    "/story_likes/{likeId}": {
+      "schema": "StoryLike",
+      "description": "Likes on stories"
+    },
+    "/referrals/{referralId}": {
+      "schema": "Referral",
+      "description": "Referral tracking"
+    }
+  }
+}
